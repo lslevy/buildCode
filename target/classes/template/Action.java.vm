@@ -1,0 +1,78 @@
+package ${package}.action;
+
+import java.util.List;
+import java.util.Map;
+
+import com.jumper.common.util.MenuUtil;
+import com.jumper.common.util.PageUtil;
+import com.jumper.common.util.Struts2Util;
+import java.util.List;
+
+import ${package}.entity.${className}Entity;
+import ${package}.service.${className}Service;
+
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public class ${className}Action {
+
+    private ${className}Entity ${classname}Entity;
+    private ${className}Service ${classname}Service;
+    private List<${className}Entity> ${classname}EntityList;
+    private String menuId;
+    PageUtil pages = new PageUtil();
+    Map<String, Object> map;
+	/**
+	 * 列表
+	 */
+	public String list${className}(){
+		${className}Entity ${classname}Entity = new ${className}Entity();
+        int total = ${classname}Service.queryTotal();
+        pages.setTotalRow(total) ;
+		${classname}Entity.setStart(pages.getStart()) ;
+		${classname}Entity.setEnd(pages.getEnd()) ;
+		${classname}EntityList=${classname}Service.queryList(map);
+        MenuUtil.loadModule(menuId);
+##        Struts2Util.getRequest().setAttribute("webDirect", "../mzsckcgl/kcsl/mzsckcgl_slList.jsp");
+        return "${classname}_list";
+
+	}
+	
+	
+	/**
+	 * 保存
+	 */
+	public void save${className}(){
+		${className}Entity ${classname}Entity = new ${className}Entity();
+		#foreach ($column in $columns)
+		$column.attrType $column.attrname = Struts2Util.getRequest().getParameter("$column.attrname");
+		${classname}Entity.set${column.attrName}($column.attrname);
+		#end
+		${classname}Service.save(${classname}Entity);
+	}
+	
+	/**
+	 * 修改
+	 */
+	public void  update${className}(){
+		${className}Entity ${classname}Entity = new ${className}Entity();
+		#foreach ($column in $columns)
+		$column.attrType $column.attrname = Struts2Util.getRequest().getParameter("$column.attrname");
+		${classname}Entity.set${column.attrName}($column.attrname);
+		#end
+		${classname}Service.update(${classname}Entity);
+	}
+	
+	/**
+	 * 删除
+	 */
+	public void  delete${className}(){
+        Long ID = Struts2Util.getRequest().getParameter("deleteId");
+		${classname}Service.delete(ID);
+	}
+}

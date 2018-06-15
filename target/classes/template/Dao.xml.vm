@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="${className}">
+
+	<sql id='${tableName}_ID_SEQ'>${tableName}_ID_SEQ.NEXTVAL</sql>
+
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap class="${package}.entity.${className}Entity" id="${classname}Map"   >
+#foreach($column in $columns)
+        <result property="${column.attrname}" column="${column.columnName}"/>
+#end
+    </resultMap>
+
+	<select id="queryObject" resultClass="${package}.entity.${className}Entity">
+		select * from ${tableName} where ${pk.columnName} = #id#
+	</select>
+
+	<select id="queryList" resultClass="${package}.entity.${className}Entity">
+        select b.* from (select a.*, rownum as linenum from ( select * from ${tableName} a where 1 = 1
+        <![CDATA[ ) a  where rownum <= #ends#) b  where linenum >= #start# ]]>
+	</select>
+	
+	<select id="queryListMap" resultClass="java.util.HashMap">
+	 select b.* from (select a.*, rownum as linenum from ( select * from ${tableName} a where 1 = 1
+        <![CDATA[ ) a  where rownum <= #ends#) b  where linenum >= #start# ]]>
+	</select>
+	
+ 	<select id="queryTotal" resultClass="java.lang.Integer">
+		select count(1) from ${tableName}
+	</select>
+	 
+    <insert id="save" parameterClass="${package}.entity.${className}Entity">
+		<selectKey keyProperty="$pk.attrname" resultClass="long" >
+			select <include refid="${tableName}_ID_SEQ" /> from dual
+		</selectKey>
+		insert into ${tableName}
+		(
+#foreach($column in $columns)
+#if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
+			$column.columnName #if($velocityCount != $columns.size()), #end
+
+#end			
+#end
+		)
+		values
+		(
+#foreach($column in $columns)
+#if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
+			#{$column.attrname}#if($velocityCount != $columns.size()), #end
+
+#end			
+#end
+		)
+	</insert>
+	 
+	<update id="update" parameterClass="${package}.entity.${className}Entity">
+		update ${tableName}  set
+
+#foreach($column in $columns)
+#if($column.columnName != $pk.columnName)
+    <isNotEmpty property="$column.attrname" prepend=",">$column.columnName = #$column.attrname#</isNotEmpty>
+#end
+#end
+		where ${pk.columnName} = #${pk.attrname}
+	</update>
+	
+	<delete id="delete">
+		delete from ${tableName} where ${pk.columnName} = #id#
+	</delete>
+	
+</sqlMap>

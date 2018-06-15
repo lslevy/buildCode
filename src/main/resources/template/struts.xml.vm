@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+        "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+    <package name="${classname}" extends="fybj-default" namespace="/levy">
+        <!-- ${classname}前端注册 -->
+        <action name="${classname}_*" class="${package}.action.${className}Action" method="{1}">
+            <result name="success">/login/input.jsp</result>
+            <result name="funcenterlist">/login/loadcenterList.jsp</result>
+            <result name="failure">/common/jsp/500.jsp</result>
+            <result name="error">/common/jsp/error.jsp</result>
+            <result name="${classname}_list${className}">/${classname}/${classname}_list.jsp</result>
+            <result name="${classname}_delete${className}"/>
+            <result name="${classname}_save${className}"/>
+            <result name="${classname}_update${className}"/>
+        </action>
+    </package>
+</struts>

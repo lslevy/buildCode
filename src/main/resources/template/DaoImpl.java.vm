@@ -1,0 +1,53 @@
+package ${package}.dao.impl;
+
+import ${package}.entity.${className}Entity;
+import ${package}.dao.${className}Dao;
+import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+import java.util.List;
+import java.util.Map;
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public class ${className}DaoImpl extends SqlMapClientDaoSupport implements ${className}Dao{
+
+    @Override
+    public ${className}Entity queryObject(${pk.attrType} ${pk.attrname}){
+        return (${className}Entity)getSqlMapClientTemplate().queryForObject("${classname}.queryObject",${pk.attrname});
+    }
+
+    @Override
+    public List<${className}Entity> queryList(Map<String, Object> map){
+        return getSqlMapClientTemplate().queryForList("${classname}.queryList",map);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryListMap(Map<String, Object> map){
+        return getSqlMapClientTemplate().queryForList("${classname}.queryListMap",map);
+    }
+
+    @Override
+    public int queryTotal(){
+        return  (Integer)getSqlMapClientTemplate().queryForObject("${classname}.queryTotal");
+    }
+
+    @Override
+    public void save(${className}Entity ${classname}){
+        getSqlMapClientTemplate().insert("${classname}.save", ${classname});
+    }
+
+    @Override
+    public void update(${className}Entity ${classname}){
+        getSqlMapClientTemplate().update("${classname}.update", ${classname});
+    }
+
+    @Override
+    public void delete(${pk.attrType} ${pk.attrname}){
+        getSqlMapClientTemplate().delete("${classname}.delete", ${pk.attrname});
+    }
+
+
+}
