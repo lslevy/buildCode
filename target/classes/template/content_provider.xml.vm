@@ -5,7 +5,7 @@
     <bean id="${classname}Service" class="${package}.service.impl.${className}ServiceImpl">
         <property name="${classname}Dao" ref="${classname}Dao"></property>
     </bean>
-    <bean id="${classname}Dao" class="${package}.dao.impl.${className}DAOImpl">
+    <bean id="${classname}Dao" class="${package}.dao.impl.${className}DaoImpl">
         <property name="sqlMapClient" ref="sqlMapClient" />
     </bean>
 </beans>

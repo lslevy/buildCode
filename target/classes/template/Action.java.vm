@@ -50,8 +50,10 @@ public class ${className}Action {
 	public void save${className}(){
 		${className}Entity ${classname}Entity = new ${className}Entity();
 		#foreach ($column in $columns)
+			#if($column.columnName != $pk.columnName)
 		$column.attrType $column.attrname = Struts2Util.getRequest().getParameter("$column.attrname");
 		${classname}Entity.set${column.attrName}($column.attrname);
+			#end
 		#end
 		${classname}Service.save(${classname}Entity);
 	}

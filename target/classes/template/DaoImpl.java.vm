@@ -16,17 +16,17 @@ public class ${className}DaoImpl extends SqlMapClientDaoSupport implements ${cla
 
     @Override
     public ${className}Entity queryObject(${pk.attrType} ${pk.attrname}){
-        return (${className}Entity)getSqlMapClientTemplate().queryForObject("${classname}.queryObject");
+        return (${className}Entity)getSqlMapClientTemplate().queryForObject("${classname}.queryObject",${pk.attrname});
     }
 
     @Override
     public List<${className}Entity> queryList(Map<String, Object> map){
-        return getSqlMapClientTemplate().queryForList("${classname}.queryList");
+        return getSqlMapClientTemplate().queryForList("${classname}.queryList",map);
     }
 
     @Override
     public List<Map<String, Object>> queryListMap(Map<String, Object> map){
-        return getSqlMapClientTemplate().queryForList("${classname}.queryListMap");
+        return getSqlMapClientTemplate().queryForList("${classname}.queryListMap",map);
     }
 
     @Override
